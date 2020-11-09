@@ -1,0 +1,6 @@
+{
+  "azureFunctions.projectRuntime": "beta",
+  "azureFunctions.projectLanguage": "C#",
+  "azureFunctions.templateFilter": "Verified",
+  "azureFunctions.deploySubpath": "Source/ACIQueueApp/bin/Release/netcoreapp3.1/publish"
+}
