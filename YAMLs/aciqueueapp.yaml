@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aciqueueapp-deploy
+  labels:
+      app: aciqueueapp-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aciqueueapp-pod
+  template:
+    metadata:
+      labels:
+        app: aciqueueapp-pod              
+    spec:
+      containers:
+      - name: aciqueueapp-app
+        image: srvlswkshp.azurecr.io/aciqueue:v1.0.0
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "300Mi"
+            cpu: "300m"
+          limits:
+            memory: "300Mi"
+            cpu: "300m"
+      nodeSelector:
+        kubernetes.io/role: agent
+        beta.kubernetes.io/os: linux
+        type: virtual-kubelet      
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        operator: Exists      
+      - key: azure.com/aci
+        effect: NoSchedule
+      # nodeSelector:
+      #   agentpool: akswkpool
+      imagePullSecrets:
+      - name: srvlsworkshop-secret      
