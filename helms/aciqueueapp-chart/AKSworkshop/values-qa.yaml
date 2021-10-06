@@ -1,0 +1,22 @@
+deployment:
+  name: aciqueueapp-deploy
+  namespace: aks-workshop-qa
+  labels:
+    app: aciqueueapp-deploy
+  selectorLabels:
+    app: aciqueueapp-pod
+  replicas: 2
+  strategyType: RollingUpdate
+  maxSurge: 1
+  maxUnavailable: 1
+  nodeSelector:
+    agentpool: aksapipool  
+  containers:
+  - name: aciqueueapp-app
+    image: akswkshpacr.azurecr.io/aciqueue-app:v1.0.0
+    imagePullPolicy: IfNotPresent    
+    memoryRequest: "150Mi"
+    cpuRequest: "150m"
+    memoryLimit: "300Mi"
+    cpuLimit: "300m"
+    containerPorts: [80]    
