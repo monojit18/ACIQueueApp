@@ -1,8 +1,8 @@
-tenantId="72f988bf-86f1-41af-91ab-2d7cd011db47"
-subscriptionId="6bdcc705-8db6-4029-953a-e749070e6db6"
+tenantId=""
+subscriptionId=""
 clusterName="aks-train-cluster"
 resourceGroup="aks-train-rg"
-acrName="akstrnacr"
+acrName=""
 
 az login --tenant $tenantId
 az aks get-credentials -g $resourceGroup -n $clusterName
@@ -11,7 +11,7 @@ k config set-context --current --namespace=serverless
 #docker build -t $acrName.azurecr.io/aciqueue-app:v1.0.0 .
 az acr build -t $acrName.azurecr.io/aciqueue-app:v1.0.0 -r $acrName .
 
-k create secret generic keda-stg-secret -n serverless --from-literal=AzureWebJobsStorage="DefaultEndpointsProtocol=https;AccountName=kedateststg;AccountKey=U8+oGMN5u7ld7c4PYMF1Wy23A0K7nIy87qAL+OLmPg6iu9MU6U9GVr0XswN8YqKoCNmiLaDAqhfe8a5WyOvS3Q==;EndpointSuffix=core.windows.net"
+k create secret generic keda-stg-secret -n serverless --from-literal=AzureWebJobsStorage=""
 
 helm repo add kedacore https://kedacore.github.io/charts
 helm repo update
