@@ -1,0 +1,28 @@
+tenantId=""
+subscriptionId=""
+clusterName="aks-workshop-cluster"
+resourceGroup="aks-workshop-rg"
+acrName=""
+
+az login --tenant $tenantId
+az aks get-credentials -g $resourceGroup -n $clusterName
+k config set-context --current --namespace=aks-workshop-dev
+
+DEV
+===
+
+helm install aciqueueapp-keda-chart -n aks-workshop-dev ./aciqueueapp-keda-chart/ -f ./aciqueueapp-keda-chart/AKSWorkshop/values-keda-dev.yaml
+helm upgrade aciqueueapp-keda-chart -n aks-workshop-dev ./aciqueueapp-keda-chart/ -f ./aciqueueapp-keda-chart/AKSWorkshop/values-keda-dev.yaml
+helm uninstall aciqueueapp-keda-chart -n aks-workshop-dev
+
+QA
+==
+
+helm install aciqueueapp-keda-chart -n aks-workshop-qa ./aciqueueapp-keda-chart/ -f ./aciqueueapp-keda-chart/AKSWorkshop/values-keda-qa.yaml
+helm upgrade aciqueueapp-keda-chart -n aks-workshop-qa ./aciqueueapp-keda-chart/ -f ./aciqueueapp-keda-chart/AKSWorkshop/values-keda-qa.yaml
+helm uninstall aciqueueapp-keda-chart -n aks-workshop-qa
+
+
+
+
+
