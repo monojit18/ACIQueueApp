@@ -13,6 +13,13 @@ az acr build -t $acrName.azurecr.io/aciqueue-app:v1.0.0 -r $acrName .
 
 k create secret generic keda-stg-secret -n serverless --from-literal=AzureWebJobsStorage=""
 
-helm install aciqueueapp-chart -n serverless ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSTrain/values.yaml
-helm upgrade aciqueueapp-chart -n serverless ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSTrain/values.yaml
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+k create namespace keda
+helm install keda kedacore/keda -n keda
+
+#helm uninstall keda -n keda
+
+helm install aciqueueapp-chart -n serverless ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSTrain/values-keda.yaml
+helm upgrade aciqueueapp-chart -n serverless ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSTrain/values-keda.yaml
 helm uninstall aciqueueapp-chart -n serverless
