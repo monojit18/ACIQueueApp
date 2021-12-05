@@ -269,6 +269,6 @@ __pycache__/
 !.gitignore
 
 .vscode/
-Source/ACIQueueApp/.vscode
-helms/**/dump
-helms/**/misc/commands.txt
+**/.vscode
+**/misc/commands.txt
+**/dump
