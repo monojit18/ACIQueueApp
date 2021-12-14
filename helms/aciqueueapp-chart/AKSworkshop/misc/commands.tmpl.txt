@@ -6,12 +6,12 @@ acrName=""
 
 az login --tenant $tenantId
 az aks get-credentials -g $resourceGroup -n $clusterName
-k config set-context --current --namespace=aks-workshop-dev
+k config set-context --current --namespace=serverless
 
 #docker build -t $acrName.azurecr.io/aciqueue-app:v1.0.0 .
 az acr build -t $acrName.azurecr.io/aciqueue-app:v1.0.0 -r $acrName .
 
-k create secret generic web-jobs-storage-secret --from-literal=AzureWebJobsStorage=''
+k create secret generic web-jobs-storage-secret -n serverless --from-literal=AzureWebJobsStorage=''
 
 helm repo add kedacore https://kedacore.github.io/charts
 helm repo update
@@ -20,21 +20,6 @@ helm install keda kedacore/keda -n keda
 
 #helm uninstall keda -n keda
 
-DEV
-===
-
-helm install aciqueueapp-chart -n aks-workshop-dev ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSWorkshop/values-dev.yaml
-helm upgrade aciqueueapp-chart -n aks-workshop-dev ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSWorkshop/values-dev.yaml
-helm uninstall aciqueueapp-chart -n aks-workshop-dev
-
-QA
-==
-
-helm install aciqueueapp-chart -n aks-workshop-qa ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSWorkshop/values-qa.yaml
-helm upgrade aciqueueapp-chart -n aks-workshop-qa ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSWorkshop/values-qa.yaml
-helm uninstall aciqueueapp-chart -n aks-workshop-qa
-
-
-
-
-
+helm install aciqueueapp-chart -n serverless ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSWorkshop/values.yaml
+helm upgrade aciqueueapp-chart -n serverless ./aciqueueapp-chart/ -f ./aciqueueapp-chart/AKSWorkshop/values.yaml
+#helm uninstall aciqueueapp-chart -n serverless
