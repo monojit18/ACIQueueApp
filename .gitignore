@@ -272,3 +272,5 @@ __pycache__/
 **/.vscode
 **/misc/commands.txt
 **/dump
+.DS_Store
+helms/.DS_Store
